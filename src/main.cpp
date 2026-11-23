@@ -1,9 +1,24 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 int main()
 {
-    cout << "Git Simulator Started!" << endl;
+    string command;
+
+    while (true)
+    {
+        cout << "$ ";
+
+        getline(cin, command);
+
+        if (command == "exit")
+        {
+            break;
+        }
+
+        cout << "Command: " << command << endl;
+    }
 
     return 0;
 }
