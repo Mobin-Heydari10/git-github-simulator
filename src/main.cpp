@@ -2,7 +2,9 @@
 
 using namespace std;
 
-int main(){
+int main()
+{
     cout << "Git Simulator Started!" << endl;
+
     return 0;
 }
