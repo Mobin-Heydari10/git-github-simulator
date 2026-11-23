@@ -32,6 +32,7 @@ public:
     FileSystem();
 
     void pwd();
+    void mkdir(string dirName);
 };
 
 #endif
