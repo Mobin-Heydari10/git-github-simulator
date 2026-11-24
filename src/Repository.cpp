@@ -200,3 +200,98 @@ void Repository::reset(string fileName) {
 
     throw runtime_error("File not found in staging area!");
 }
+void Repository::status() {
+    if (initialized == false) {
+        throw runtime_error("Repository is not initialized!");
+    }
+
+    cout << "Repository status" << endl;
+    cout << "-----------------" << endl;
+
+    if (commits.empty()) {
+        cout << "No commits yet." << endl;
+    }
+    else {
+        cout << "Current branch: main" << endl;
+        cout << "HEAD commit: " << headCommitId << endl;
+    }
+
+    cout << endl;
+    cout << "Staged files:" << endl;
+
+    if (stagingArea.empty()) {
+        cout << "No staged files." << endl;
+        return;
+    }
+
+    if (commits.empty()) {
+        for (int i = 0; i < stagingArea.size(); i++) {
+            cout << "New file: "
+                 << stagingArea[i].fileName << endl;
+        }
+    }
+    else {
+        vector<StagedFile> lastSnapshot =
+            commits[commits.size() - 1].getSnapshot();
+
+        for (int i = 0; i < stagingArea.size(); i++) {
+            bool found = false;
+
+            for (int j = 0; j < lastSnapshot.size(); j++) {
+                if (stagingArea[i].fileName ==
+                    lastSnapshot[j].fileName) {
+
+                    found = true;
+
+                    if (stagingArea[i].content !=
+                        lastSnapshot[j].content) {
+
+                        cout << "Modified: "
+                             << stagingArea[i].fileName << endl;
+                    }
+
+                    break;
+                }
+            }
+
+            if (found == false) {
+                cout << "New file: "
+                     << stagingArea[i].fileName << endl;
+            }
+        }
+    }
+}
+void Repository::log() {
+    if (initialized == false) {
+        throw runtime_error("Repository is not initialized!");
+    }
+
+    if (commits.empty()) {
+        cout << "No commits yet." << endl;
+        return;
+    }
+
+    cout << "Commit history" << endl;
+    cout << "--------------" << endl;
+
+    for (int i = commits.size() - 1; i >= 0; i--) {
+        cout << endl;
+
+        cout << "Commit ID: "
+             << commits[i].getId() << endl;
+
+        cout << "Message: "
+             << commits[i].getMessage() << endl;
+
+        cout << "Author: "
+             << commits[i].getAuthor() << endl;
+
+        cout << "Date: "
+             << commits[i].getTimestamp() << endl;
+
+        cout << "Parent ID: "
+             << commits[i].getParentId() << endl;
+
+        cout << "-----------------" << endl;
+    }
+}

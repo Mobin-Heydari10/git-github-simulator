@@ -40,6 +40,9 @@ public:
 
     vector<Commit> getCommits();
     int getHeadCommitId();
+
+    void status();
+    void log();
 };
 
 #endif
