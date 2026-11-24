@@ -35,8 +35,9 @@ public:
     void mkdir(string dirName);
     void cd(string path);
     void ls();
-    void touch(string filename);
+    void touch(string fileName);
     void echo(string fileName, string text);
+    void cat(string fileName);
 };
 
 #endif

@@ -239,3 +239,53 @@ void FileSystem::echo(string fileName, string text) {
 
     cout << "Text added successfully." << endl;
 }
+void FileSystem::cat(string fileName) {
+
+    if (fileName.empty()) {
+        throw runtime_error("File name cannot be empty!");
+    }
+
+    Directory* currentDirectory = &root;
+
+    if (currentPath != "/") {
+
+        string dirName = currentPath.substr(1);
+
+        bool found = false;
+
+        for (int i = 0; i < root.directories.size(); i++) {
+
+            if (root.directories[i].name == dirName) {
+
+                currentDirectory = &root.directories[i];
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw runtime_error("Current directory not found!");
+        }
+    }
+
+    bool fileFound = false;
+
+    for (int i = 0; i < currentDirectory->files.size(); i++) {
+
+        if (currentDirectory->files[i].name == fileName) {
+
+            fileFound = true;
+
+            for (int j = 0; j < currentDirectory->files[i].lines.size(); j++) {
+
+                cout << currentDirectory->files[i].lines[j] << endl;
+            }
+
+            break;
+        }
+    }
+
+    if (!fileFound) {
+        throw runtime_error("File not found!");
+    }
+}
