@@ -73,3 +73,28 @@ void Repository::add(string fileName, vector<string> content) {
 vector<StagedFile> Repository::getStagingArea() {
     return stagingArea;
 }
+
+void Repository::reset(string fileName) {
+
+    if (initialized == false) {
+        throw runtime_error("Repository is not initialized!");
+    }
+
+    if (fileName.empty()) {
+        throw runtime_error("File name cannot be empty!");
+    }
+
+    for (int i = 0; i < stagingArea.size(); i++) {
+
+        if (stagingArea[i].fileName == fileName) {
+
+            stagingArea.erase(stagingArea.begin() + i);
+
+            cout << "File removed from staging area." << endl;
+
+            return;
+        }
+    }
+
+    throw runtime_error("File not found in staging area!");
+}

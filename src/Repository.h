@@ -33,6 +33,8 @@ public:
     
     void add(string fileName, vector<string> content);
 
+    void reset(string fileName);
+
     vector<StagedFile> getStagingArea();
 };
 
