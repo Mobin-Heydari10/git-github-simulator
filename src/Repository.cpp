@@ -28,3 +28,13 @@ string Repository::getUserName() {
 string Repository::getUserEmail() {
     return userEmail;
 }
+void Repository::init() {
+
+    if (initialized == true) {
+        throw runtime_error("Repository already initialized!");
+    }
+
+    initialized = true;
+
+    cout << "Initialized empty Git repository." << endl;
+}

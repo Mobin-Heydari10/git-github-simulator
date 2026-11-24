@@ -21,6 +21,8 @@ public:
 
     string getUserName();
     string getUserEmail();
+
+    void init();
 };
 
 #endif
