@@ -94,3 +94,43 @@ void FileSystem::cd(string path) {
 
     throw runtime_error("Directory not found!");
 }
+void FileSystem::ls() {
+
+    Directory* currentDirectory = &root;
+
+    if (currentPath != "/") {
+
+        string dirName = currentPath.substr(1);
+
+        bool found = false;
+
+        for (int i = 0; i < root.directories.size(); i++) {
+
+            if (root.directories[i].name == dirName) {
+
+                currentDirectory = &root.directories[i];
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw runtime_error("Current directory not found!");
+        }
+    }
+
+    if (currentDirectory->directories.empty() &&
+        currentDirectory->files.empty()) {
+
+        cout << "Directory is empty." << endl;
+        return;
+    }
+
+    for (int i = 0; i < currentDirectory->directories.size(); i++) {
+        cout << currentDirectory->directories[i].name << endl;
+    }
+
+    for (int i = 0; i < currentDirectory->files.size(); i++) {
+        cout << currentDirectory->files[i].name << endl;
+    }
+}

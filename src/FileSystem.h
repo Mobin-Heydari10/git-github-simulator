@@ -34,6 +34,7 @@ public:
     void pwd();
     void mkdir(string dirName);
     void cd(string path);
+    void ls();
 };
 
 #endif
