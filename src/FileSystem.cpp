@@ -191,3 +191,51 @@ void FileSystem::touch(string fileName) {
 
     cout << "File created successfully." << endl;
 }
+void FileSystem::echo(string fileName, string text) {
+
+    if (fileName.empty()) {
+        throw runtime_error("File name cannot be empty!");
+    }
+
+    Directory* currentDirectory = &root;
+
+    if (currentPath != "/") {
+
+        string dirName = currentPath.substr(1);
+
+        bool found = false;
+
+        for (int i = 0; i < root.directories.size(); i++) {
+
+            if (root.directories[i].name == dirName) {
+
+                currentDirectory = &root.directories[i];
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw runtime_error("Current directory not found!");
+        }
+    }
+
+    bool fileFound = false;
+
+    for (int i = 0; i < currentDirectory->files.size(); i++) {
+
+        if (currentDirectory->files[i].name == fileName) {
+
+            currentDirectory->files[i].lines.push_back(text);
+
+            fileFound = true;
+            break;
+        }
+    }
+
+    if (!fileFound) {
+        throw runtime_error("File not found!");
+    }
+
+    cout << "Text added successfully." << endl;
+}

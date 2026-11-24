@@ -36,6 +36,7 @@ public:
     void cd(string path);
     void ls();
     void touch(string filename);
+    void echo(string fileName, string text);
 };
 
 #endif
