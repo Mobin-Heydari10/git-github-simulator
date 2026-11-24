@@ -38,3 +38,38 @@ void Repository::init() {
 
     cout << "Initialized empty Git repository." << endl;
 }
+void Repository::add(string fileName, vector<string> content) {
+
+    if (initialized == false) {
+        throw runtime_error("Repository is not initialized!");
+    }
+
+    if (fileName.empty()) {
+        throw runtime_error("File name cannot be empty!");
+    }
+
+    for (int i = 0; i < stagingArea.size(); i++) {
+
+        if (stagingArea[i].fileName == fileName) {
+
+            stagingArea[i].content = content;
+
+            cout << "File updated in staging area." << endl;
+
+            return;
+        }
+    }
+
+    StagedFile file;
+
+    file.fileName = fileName;
+    file.content = content;
+
+    stagingArea.push_back(file);
+
+    cout << "File added to staging area." << endl;
+}
+
+vector<StagedFile> Repository::getStagingArea() {
+    return stagingArea;
+}
