@@ -289,3 +289,60 @@ void FileSystem::cat(string fileName) {
         throw runtime_error("File not found!");
     }
 }
+void FileSystem::rm(string fileName) {
+
+    if (fileName.empty()) {
+        throw runtime_error("File name cannot be empty!");
+    }
+
+    Directory* currentDirectory = &root;
+
+    if (currentPath != "/") {
+
+        string dirName = currentPath.substr(1);
+
+        bool found = false;
+
+        for (int i = 0; i < root.directories.size(); i++) {
+
+            if (root.directories[i].name == dirName) {
+
+                currentDirectory = &root.directories[i];
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw runtime_error("Current directory not found!");
+        }
+    }
+
+    for (int i = 0; i < currentDirectory->directories.size(); i++) {
+
+        if (currentDirectory->directories[i].name == fileName) {
+            throw runtime_error("Cannot remove a directory!");
+        }
+    }
+
+    bool fileFound = false;
+
+    for (int i = 0; i < currentDirectory->files.size(); i++) {
+
+        if (currentDirectory->files[i].name == fileName) {
+
+            currentDirectory->files.erase(
+                currentDirectory->files.begin() + i
+            );
+
+            fileFound = true;
+            break;
+        }
+    }
+
+    if (!fileFound) {
+        throw runtime_error("File not found!");
+    }
+
+    cout << "File removed successfully." << endl;
+}

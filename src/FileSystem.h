@@ -38,6 +38,7 @@ public:
     void touch(string fileName);
     void echo(string fileName, string text);
     void cat(string fileName);
+    void rm(string fileName);
 };
 
 #endif
