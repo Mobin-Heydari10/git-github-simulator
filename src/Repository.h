@@ -7,7 +7,7 @@
 #include <stdexcept>
 
 #include "Commit.h"
-
+#include "Branch.h"
 using namespace std;
 
 class Repository {
@@ -21,6 +21,9 @@ private:
 
     int nextCommitId;
     int headCommitId;
+
+    vector<Branch> branches;
+    string currentBranchName;
 
 public:
     Repository();
@@ -43,6 +46,9 @@ public:
 
     void status();
     void log();
+
+    void branch(string name = "");
+    vector<Branch> getBranches();
 };
 
 #endif

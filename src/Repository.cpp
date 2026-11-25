@@ -46,6 +46,12 @@ void Repository::init() {
     nextCommitId=1;
     headCommitId=0;
 
+    branches.clear();
+
+    currentBranchName = "main";
+
+    branches.push_back(Branch("main", 0));
+
     cout << "Initialized empty Git repository." << endl;
 }
 void Repository::add(string fileName, vector<string> content) {
@@ -160,6 +166,12 @@ void Repository::commit(string message) {
 
     headCommitId = nextCommitId;
 
+    for (int i = 0; i < branches.size(); i++) {
+        if (branches[i].getName() == currentBranchName) {
+            branches[i].setCommitId(headCommitId);
+        }
+    }
+
     nextCommitId++;
 
     cout << "[" << headCommitId << "] "
@@ -212,7 +224,7 @@ void Repository::status() {
         cout << "No commits yet." << endl;
     }
     else {
-        cout << "Current branch: main" << endl;
+        cout << "Current branch: " << currentBranchName << endl;
         cout << "HEAD commit: " << headCommitId << endl;
     }
 
@@ -294,4 +306,47 @@ void Repository::log() {
 
         cout << "-----------------" << endl;
     }
+}
+
+void Repository::branch(string name) {
+    if (initialized == false) {
+        throw runtime_error("Repository is not initialized!");
+    }
+
+    // اگر اسم شاخه وارد نشده باشد
+    if (name == "") {
+        cout << "Branches:" << endl;
+
+        for (int i = 0; i < branches.size(); i++) {
+            if (branches[i].getName() == currentBranchName) {
+                cout << "* ";
+            }
+            else {
+                cout << "  ";
+            }
+
+            cout << branches[i].getName()
+                 << " (commit "
+                 << branches[i].getCommitId()
+                 << ")" << endl;
+        }
+
+        return;
+    }
+
+    // بررسی تکراری نبودن نام شاخه
+    for (int i = 0; i < branches.size(); i++) {
+        if (branches[i].getName() == name) {
+            throw runtime_error("Branch already exists!");
+        }
+    }
+
+    // ایجاد شاخه جدید
+    branches.push_back(Branch(name, headCommitId));
+
+    cout << "Branch " << name << " created." << endl;
+}
+
+vector<Branch> Repository::getBranches() {
+    return branches;
 }
